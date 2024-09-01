@@ -1,0 +1,69 @@
+thrd: 1
+thrd: 1
+thrd: 4
+w: 0
+thrd: 5
+w: 0
+thrd: 3
+w: 0
+thrd: 3
+w: 0
+thrd: 5
+w: 0
+thrd: 2
+w: 0
+thrd: 5
+w: 0
+thrd: 3
+w: 0
+thrd: 4
+w: 0
+thrd: 2
+w: 0
+thrd: 3
+thrd: 4
+w: 0
+thrd: 5
+thrd: 4
+thrd: 3
+w: 0
+thrd: 3
+thrd: 2
+w: 0
+thrd: 5
+w: 1
+------------------------------------------------------------------------------------
+#    t    Action type     MO       Location         Value               Rf  CV
+------------------------------------------------------------------------------------
+1    1    thread start    seq_cst  00007F5C79F453B0   0xdeadbeef              ( 0,  1)
+2    1    atomic write    seq_cst  000000000226D0B4   0                       ( 0,  2)
+3    1    atomic write    seq_cst  000000000226D0B8   0                       ( 0,  3)
+4    1    pthread create  seq_cst  00007FFF3584B0B0   0x7fff3584af50          ( 0,  4)
+5    2    thread start    seq_cst  00007F5C7B7C8428   0xdeadbeef              ( 0,  4,  5)
+6    1    pthread create  seq_cst  00007FFF3584B0A0   0x7fff3584af50          ( 0,  6)
+7    3    thread start    seq_cst  00007F5C7BAC99D0   0xdeadbeef              ( 0,  6,  0,  7)
+8    1    pthread create  seq_cst  00007FFF3584B0A0   0x7fff3584af50          ( 0,  8)
+9    4    thread start    seq_cst  00007F5C7BD4AD80   0xdeadbeef              ( 0,  8,  0,  0,  9)
+10   1    pthread create  seq_cst  00007FFF3584B0A0   0x7fff3584af50          ( 0, 10)
+11   5    thread start    seq_cst  00007F5C7BFCBDC0   0xdeadbeef              ( 0, 10,  0,  0,  0, 11)
+12   4    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0,  8,  0,  0, 12)
+13   5    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0, 10,  0,  0,  0, 13)
+14   3    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0,  6,  0, 14)
+15   3    atomic rmw      seq_cst  000000000226D0B4   0                 (1)  2   ( 0,  6,  0, 15)
+16   5    atomic rmw      seq_cst  000000000226D0B4   0x1               (2)  15  ( 0, 10,  0, 15,  0, 16)
+17   2    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0,  4, 17)
+18   5    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0, 10,  0, 15,  0, 18)
+19   3    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0,  6,  0, 19)
+20   4    atomic rmw      seq_cst  000000000226D0B4   0x2               (3)  16  ( 0, 10,  0, 15, 20, 16)
+21   2    atomic rmw      seq_cst  000000000226D0B4   0x3               (4)  20  ( 0, 10, 21, 15, 20, 16)
+22   2    atomic write    relaxed  000000000226D0B4   0                       ( 0, 10, 22, 15, 20, 16)
+23   3    thread yield    seq_cst  00007F5C7BAC99D0   0xdeadbeef              ( 0,  6,  0, 23)
+24   4    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0, 10,  0, 15, 24, 16)
+25   5    thread yield    seq_cst  00007F5C7BFCBDC0   0xdeadbeef              ( 0, 10,  0, 15,  0, 25)
+26   4    thread yield    seq_cst  00007F5C7BD4AD80   0xdeadbeef              ( 0, 10,  0, 15, 26, 16)
+27   3    atomic read     seq_cst  000000000226D0B8   0                   3   ( 0,  6,  0, 27)
+28   3    thread yield    seq_cst  00007F5C7BAC99D0   0xdeadbeef              ( 0,  6,  0, 28)
+29   2    atomic rmw      relaxed  000000000226D0B8   0                 (1)  3   ( 0, 10, 29, 15, 20, 16)
+30   2    thread finish   seq_cst  00007F5C7B7C8428   0xdeadbeef              ( 0, 10, 30, 15, 20, 16)
+31   5    atomic read     seq_cst  000000000226D0B8   0x1                 29  ( 0, 10,  0, 15,  0, 31)
+HASH 2549271857
